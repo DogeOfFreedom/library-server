@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Book = require("./book");
 
 const genre = new mongoose.Schema({
   name: {
@@ -7,6 +8,7 @@ const genre = new mongoose.Schema({
   },
   books: {
     type: [mongoose.Schema.Types.ObjectId],
+    ref: Book,
   },
 });
 

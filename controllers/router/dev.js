@@ -9,10 +9,6 @@ const BookInstance = require("../models/bookinstance");
 const Genre = require("../models/genre");
 const mongoose = require("mongoose");
 
-const url =
-  "mongodb+srv://admin:9O17ElFbdCvziw4Z@cluster0.sprmbnv.mongodb.net/library?retryWrites=true&w=majority&appName=Cluster0";
-mongoose.connect(url).then(() => console.log("connected to db"));
-
 const populateGenres = async () => {
   const genres = [];
   await fs

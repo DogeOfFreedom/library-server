@@ -1,9 +1,11 @@
 const mongoose = require("mongoose");
+const Book = require("./book");
 
 const bookInstance = new mongoose.Schema({
   book: {
     type: mongoose.ObjectId,
     required: true,
+    ref: Book,
   },
   imprint: {
     type: String,
