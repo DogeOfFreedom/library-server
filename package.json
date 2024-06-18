@@ -27,6 +27,7 @@
     "prettier": "3.2.5"
   },
   "dependencies": {
+    "bson": "^6.7.0",
     "cors": "^2.8.5",
     "csv": "^6.3.9",
     "csv-parse": "^5.5.6",
@@ -34,6 +35,6 @@
     "express-async-handler": "^1.2.0",
     "luxon": "^3.4.4",
     "mongodb": "^6.7.0",
-    "mongoose": "^8.4.1"
+    "mongoose": "^8.4.3"
   }
 }

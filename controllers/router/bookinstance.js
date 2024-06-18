@@ -7,7 +7,6 @@ router.get(
   "/all",
   asyncHandler(async (req, res) => {
     const data = await BookInstance.where().populate("book");
-    console.log(data);
     res.json(JSON.stringify({ ...data }));
   })
 );
@@ -35,7 +34,6 @@ router.get(
   asyncHandler(async (req, res) => {
     const { id } = req.params;
     const book = await BookInstance.find({ _id: new ObjectId(id) });
-    console.log(book);
     res.json(JSON.stringify(book));
   })
 );
@@ -46,6 +44,21 @@ router.get(
     const { id } = req.params;
     const data = await BookInstance.where({ book: new ObjectId(id) });
     res.json(JSON.stringify(data));
+  })
+);
+
+router.post(
+  "/create",
+  asyncHandler(async (req, res) => {
+    const { book, doa, imprint, status } = req.body;
+    const bookId = ObjectId.createFromHexString(book);
+    await BookInstance.create({
+      book: bookId,
+      imprint,
+      doa: new Date(doa),
+      status,
+    });
+    res.sendStatus(200);
   })
 );
 

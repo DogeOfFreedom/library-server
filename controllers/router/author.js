@@ -2,11 +2,20 @@ const asyncHandler = require("express-async-handler");
 const router = require("express").Router();
 const { ObjectId } = require("mongodb");
 const Author = require("../models/author");
+const author = require("../models/author");
 
 router.get(
   "/all",
   asyncHandler(async (req, res) => {
     const data = await Author.where();
+    res.json(JSON.stringify({ ...data }));
+  })
+);
+
+router.get(
+  "/names",
+  asyncHandler(async (req, res) => {
+    const data = await Author.find({}, { firstname: 1, lastname: 1 });
     res.json(JSON.stringify({ ...data }));
   })
 );
@@ -25,6 +34,15 @@ router.get(
     const { id } = req.params;
     const book = await Author.find({ _id: new ObjectId(id) });
     res.json(JSON.stringify(book));
+  })
+);
+
+router.post(
+  "/create",
+  asyncHandler(async (req, res) => {
+    const { firstname, lastname, dob, dod } = req.body;
+    await author.create({ firstname, lastname, dob, dod });
+    res.sendStatus(200);
   })
 );
 
