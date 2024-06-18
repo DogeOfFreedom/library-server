@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const router = require("express").Router();
 const Genre = require("../models/genre");
+const { ObjectId } = require("mongodb");
 
 router.get(
   "/all",
@@ -35,11 +36,33 @@ router.get(
   })
 );
 
+router.put(
+  "/:id/update",
+  asyncHandler(async (req, res) => {
+    const { name, id } = req.body;
+    const exists = await Genre.findOne({ name });
+    if (exists) {
+      res.json({
+        message: "Genre already exists",
+      });
+    } else {
+      const selectedAuthor = await Genre.findOne({
+        _id: ObjectId.createFromHexString(id),
+      });
+      selectedAuthor.name = name;
+      await selectedAuthor.save();
+
+      res.json({
+        message: "Success",
+      });
+    }
+  })
+);
+
 router.post(
   "/create",
   asyncHandler(async (req, res) => {
     const genre = req.body.genre.toLowerCase();
-    console.log(genre);
 
     // Check if genre already exists
     const exists = await Genre.exists({ name: genre });
@@ -52,7 +75,9 @@ router.post(
       await Genre.create({
         name: genre,
       });
-      res.sendStatus(200);
+      res.json({
+        message: "Success",
+      });
     }
   })
 );

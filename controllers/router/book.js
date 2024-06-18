@@ -59,20 +59,35 @@ router.post(
         message: "Genre Already Exists",
       });
     } else {
-      const [firstname, lastname] = author.split(" ");
-      const authorId = await Author.findOne(
-        { firstname, lastname },
-        { _id: 1 }
-      );
       await Book.create({
         title,
-        author: authorId,
+        author: ObjectId.createFromHexString(author),
         summary,
         ISBN,
         genre: genres,
       });
-      res.sendStatus(200);
+      res.json({
+        message: "Success",
+      });
     }
+  })
+);
+
+router.put(
+  "/:id/update",
+  asyncHandler(async (req, res) => {
+    const { title, author, summary, ISBN, genres, id } = req.body;
+    const selectedBook = await Book.findById(ObjectId.createFromHexString(id));
+    selectedBook.title = title;
+    selectedBook.author = ObjectId.createFromHexString(author);
+    selectedBook.summary = summary;
+    selectedBook.ISBN = ISBN;
+    selectedBook.genre = genres;
+    await selectedBook.save();
+
+    res.json({
+      message: "Success",
+    });
   })
 );
 

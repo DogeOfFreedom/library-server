@@ -47,6 +47,25 @@ router.get(
   })
 );
 
+router.put(
+  "/:id/update",
+  asyncHandler(async (req, res) => {
+    const { book, imprint, doa, status, id } = req.body;
+    const selectedBookInstance = await BookInstance.findById(
+      ObjectId.createFromHexString(id)
+    );
+    selectedBookInstance.book = ObjectId.createFromHexString(book);
+    selectedBookInstance.imprint = imprint;
+    selectedBookInstance.doa = doa;
+    selectedBookInstance.status = status;
+    await selectedBookInstance.save();
+
+    res.json({
+      message: "Success",
+    });
+  })
+);
+
 router.post(
   "/create",
   asyncHandler(async (req, res) => {

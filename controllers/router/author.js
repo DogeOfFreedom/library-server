@@ -28,6 +28,25 @@ router.get(
   })
 );
 
+router.put(
+  "/:id/update",
+  asyncHandler(async (req, res) => {
+    const { firstname, lastname, dob, dod, id } = req.body;
+    const selectedAuthor = await Author.findById(
+      ObjectId.createFromHexString(id)
+    );
+    selectedAuthor.firstname = firstname;
+    selectedAuthor.lastname = lastname;
+    selectedAuthor.dob = dob;
+    selectedAuthor.dod = dod;
+    await selectedAuthor.save();
+
+    res.json({
+      message: "Success",
+    });
+  })
+);
+
 router.get(
   "/:id",
   asyncHandler(async (req, res) => {
@@ -42,7 +61,9 @@ router.post(
   asyncHandler(async (req, res) => {
     const { firstname, lastname, dob, dod } = req.body;
     await author.create({ firstname, lastname, dob, dod });
-    res.sendStatus(200);
+    res.json({
+      message: "Success",
+    });
   })
 );
 
