@@ -81,4 +81,15 @@ router.post(
   })
 );
 
+router.delete(
+  "/:id/delete",
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    await BookInstance.deleteOne({ _id: id });
+    res.json({
+      message: "Successfully deleted",
+    });
+  })
+);
+
 module.exports = router;

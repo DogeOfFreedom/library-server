@@ -2,7 +2,6 @@ const asyncHandler = require("express-async-handler");
 const router = require("express").Router();
 const { ObjectId } = require("mongodb");
 const Book = require("../models/book");
-const Author = require("../models/author");
 
 router.get(
   "/all",
@@ -87,6 +86,17 @@ router.put(
 
     res.json({
       message: "Success",
+    });
+  })
+);
+
+router.delete(
+  "/:id/delete",
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    await Book.deleteOne({ _id: id });
+    res.json({
+      message: "Successfully deleted",
     });
   })
 );

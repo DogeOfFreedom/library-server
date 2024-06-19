@@ -47,6 +47,17 @@ router.put(
   })
 );
 
+router.delete(
+  "/:id/delete",
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    await Author.deleteOne({ _id: id });
+    res.json({
+      message: "Successfully deleted",
+    });
+  })
+);
+
 router.get(
   "/:id",
   asyncHandler(async (req, res) => {

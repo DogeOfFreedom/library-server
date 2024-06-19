@@ -28,10 +28,19 @@ router.get(
 );
 
 router.get(
-  "/:id",
+  "/:id/name",
   asyncHandler(async (req, res) => {
     const { id } = req.params;
-    const genre = await Genre.find({ _id: id }).populate("books");
+    const genre = await Genre.find({ _id: id }, { name: 1 });
+    res.json(JSON.stringify(genre));
+  })
+);
+
+router.get(
+  "/:id/books",
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const genre = await Genre.find({ _id: id }, { books: 1 }).populate("books");
     res.json(JSON.stringify(genre));
   })
 );
@@ -59,10 +68,21 @@ router.put(
   })
 );
 
+router.delete(
+  "/:id/delete",
+  asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    await Genre.deleteOne({ _id: id });
+    res.json({
+      message: "Successfully deleted",
+    });
+  })
+);
+
 router.post(
   "/create",
   asyncHandler(async (req, res) => {
-    const genre = req.body.genre.toLowerCase();
+    const genre = req.body.name.toLowerCase();
 
     // Check if genre already exists
     const exists = await Genre.exists({ name: genre });

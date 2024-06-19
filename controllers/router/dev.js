@@ -114,6 +114,7 @@ router.post("/insert_data", async (req, res) => {
   // read in data
   try {
     await populateAuthors();
+    console.log("Inserted data");
     res.sendStatus(200);
   } catch (e) {
     res.sendStatus(500);
