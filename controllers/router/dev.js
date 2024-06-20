@@ -121,6 +121,12 @@ router.post("/insert_data", async (req, res) => {
   }
 });
 
+router.get("/", (req, res) => {
+  res.json({
+    message: "dev routes are active",
+  });
+});
+
 router.delete("/del", async (req, res) => {
   // delete all collections
   console.log("delete all data");
