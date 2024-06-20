@@ -51,3 +51,6 @@ const devRouter = require("./router/dev");
 if (process.env.ENV === "development") {
   app.use("/dev", devRouter);
 }
+
+const generalRouter = require("./router/general");
+app.use("/", generalRouter);
