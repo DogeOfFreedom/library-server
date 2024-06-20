@@ -48,4 +48,6 @@ const bookInstanceRouter = require("./router/bookinstance");
 app.use("/book_instance", bookInstanceRouter);
 
 const devRouter = require("./router/dev");
-app.use("/dev", devRouter);
+if (process.env.ENV === "development") {
+  app.use("/dev", devRouter);
+}
