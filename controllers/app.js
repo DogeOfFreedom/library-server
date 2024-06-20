@@ -2,10 +2,25 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+const compression = require("compression");
+const helmet = require("helmet");
 app.use(express.json());
 
 const cors = require("cors");
 app.use(cors({ origin: "http://127.0.0.1:5173" }));
+
+app.use(compression());
+app.use(helmet());
+
+// Rate limit to 20 req per minute
+const RateLimit = require("express-rate-limit");
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 100,
+});
+
+// Apply rate limit to all routes
+app.use(limiter);
 
 // Listen
 const port = 3000;
@@ -14,9 +29,10 @@ app.listen(port, () => {
 });
 
 // Connect to db
-const url =
+const devDbUrl =
   "mongodb+srv://admin:9O17ElFbdCvziw4Z@cluster0.sprmbnv.mongodb.net/library?retryWrites=true&w=majority&appName=Cluster0";
-mongoose.connect(url).then(() => console.log("connected to db"));
+const mongoDB = process.env.MONGODB_URI || devDbUrl;
+mongoose.connect(mongoDB).then(() => console.log("connected to db"));
 
 // Routes
 const bookRouter = require("./router/book");
