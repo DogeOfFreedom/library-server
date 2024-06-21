@@ -7,7 +7,8 @@ const helmet = require("helmet");
 app.use(express.json());
 
 const cors = require("cors");
-app.use(cors({ origin: "http://127.0.0.1:5173" }));
+const allowedOrigin = process.env.ORIGIN || "http://127.0.0.1:4173";
+app.use(cors({ origin: allowedOrigin }));
 
 app.use(compression());
 app.use(helmet());
